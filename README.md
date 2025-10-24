@@ -257,7 +257,7 @@ MIT License
 
 ## 👨‍💻 Author
 
-Your Name
+@toantd181 + Google Gemini + Claude AI + ChatGPT
 
 ## 🙏 Acknowledgments
 
