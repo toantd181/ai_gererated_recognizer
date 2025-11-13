@@ -1,267 +1,425 @@
-# AI Image Detector
+# 🤖 AI Face Detector
 
-A full-stack web application that detects whether an image is real or AI-generated using a ResNet50 deep learning model.
+A full-stack web application to detect if a face image is real or AI-generated using deep learning with EfficientNet-B3.
 
-## 🎯 Features
+![Accuracy](https://img.shields.io/badge/Accuracy-90.24%25-success)
+![Model](https://img.shields.io/badge/Model-EfficientNet--B3-blue)
+![Python](https://img.shields.io/badge/Python-3.11-blue)
+![React](https://img.shields.io/badge/React-18.2-61dafb)
+![PyTorch](https://img.shields.io/badge/PyTorch-2.5-red)
 
-- Upload images (PNG, JPG, JPEG)
-- Real-time AI detection
-- Confidence scores and detailed probabilities
-- Beautiful gradient UI with animations
-- Error handling and validation
-- Responsive design
+## 📸 Features
+
+- ✅ **Automatic Face Detection** - Upload any photo, system detects and crops faces automatically using MTCNN
+- ✅ **High Accuracy** - 90.24% validation accuracy on 85,000+ images
+- ✅ **Real-time Predictions** - Instant AI face detection results
+- ✅ **Confidence Scores** - Detailed probability breakdown for each class
+- ✅ **Modern UI** - Beautiful React frontend with gradient design
+- ✅ **GPU Support** - Automatic CUDA acceleration when available
 
 ## 🏗️ Project Structure
+
 ```
 face-recognizer/
-├── backend/                    # Flask Backend
-│   ├── app.py                 # Main Flask application
-│   ├── model.py               # AI model integration
-│   ├── requirements.txt       # Python dependencies
-│   ├── models/
-│   │   └── my_face_classifier.pth  # Trained ResNet50 model
-│   └── uploads/               # Temporary upload folder
+├── backend/                    # Flask API Server
+│   ├── models/                 # Model weights directory
+│   │   └── ai_face_detector_final.pth
+│   ├── uploads/                # Temporary upload folder (auto-created)
+│   ├── app.py                  # Flask server
+│   ├── model.py                # Model loader & inference
+│   ├── test_model.py           # CLI test script
+│   └── requirements.txt        # Python dependencies
 │
-└── frontend/                   # React Frontend
-    ├── public/
-    ├── src/
-    │   ├── App.jsx            # Main React component
-    │   ├── index.js           # Entry point
-    │   └── index.css          # Global styles
-    ├── package.json           # Node dependencies
-    └── package-lock.json
+├── frontend/                   # React Web Application
+│   ├── public/                 # Static assets
+│   ├── src/
+│   │   ├── App.jsx             # Main component
+│   │   ├── index.js
+│   │   └── index.css
+│   ├── package.json
+│   └── package-lock.json
+│
+├── img/                        # Images for README
+├── intro-ml-v1.ipynb          # Model training notebook (Kaggle)
+├── intro-ml-v2.ipynb          # Model training notebook v2
+├── README.md                   # This file
+└── .gitignore                  # Git ignore rules
 ```
 
-## 🚀 Installation
+## 🚀 Quick Start
 
 ### Prerequisites
 
-- Python 3.8+
-- Node.js 16+
-- pip
-- npm
+- Python 3.11
+- Node.js 14+
+- Conda (Miniconda/Anaconda)
+- Your trained model: `ai_face_detector_final.pth`
 
-### Backend Setup
+### 1️⃣ Clone Repository
+
 ```bash
-# Navigate to backend directory
+git clone https://github.com/yourusername/face-recognizer.git
+cd face-recognizer
+```
+
+### 2️⃣ Backend Setup
+
+```bash
+# Navigate to backend
 cd backend
 
-# Install Python dependencies
+# Create conda environment
+conda create -n face-recognizer python=3.11 -y
+conda activate face-recognizer
+
+# Install dependencies
+conda install pytorch torchvision cpuonly numpy pillow -c pytorch -c conda-forge
 pip install -r requirements.txt
 
-# Verify model file exists
-ls models/my_face_classifier.pth
+# Copy your trained model to models folder
+cp /path/to/ai_face_detector_final.pth models/
+```
 
-# Start Flask server
+### 3️⃣ Frontend Setup
+
+```bash
+# Navigate to frontend (from project root)
+cd frontend
+
+# Install dependencies
+npm install
+```
+
+### 4️⃣ Run the Application
+
+**Terminal 1 - Start Backend:**
+```bash
+cd backend
+conda activate face-recognizer
 python app.py
 ```
 
-Backend will run on `http://localhost:5000`
-
-### Frontend Setup
+**Terminal 2 - Start Frontend:**
 ```bash
-# Navigate to frontend directory
 cd frontend
-
-# Install Node dependencies
-npm install
-
-# Start development server
 npm start
 ```
 
-Frontend will open at `http://localhost:3000`
+### 5️⃣ Access the Application
 
-## 📦 Dependencies
+- **Frontend UI**: http://localhost:3000
+- **Backend API**: http://localhost:5000
+- **Health Check**: http://localhost:5000/health
 
-### Backend (Python)
+## 📦 Installation Details
 
-- Flask 3.0.0 - Web framework
-- flask-cors 4.0.0 - CORS support
-- torch >=2.0.0 - PyTorch deep learning
-- torchvision >=0.15.0 - Image transformations
-- Pillow >=10.0.0 - Image processing
-- numpy >=1.24.0 - Numerical computing
+### Backend Dependencies
 
-### Frontend (JavaScript/React)
-
-- react 18.2.0 - UI framework
-- react-dom 18.2.0 - React DOM rendering
-- react-scripts 5.0.1 - Build tooling
-- lucide-react 0.263.1 - Icon library
-
-## 🎓 Model Information
-
-- **Architecture**: ResNet50 (Transfer Learning)
-- **Task**: Binary Classification
-- **Classes**: 
-  - AI-Generated Images (Class 0)
-  - Real Images (Class 1)
-- **Input Size**: 256x256 RGB
-- **Output**: Sigmoid activation with 0.5 threshold
-- **Training**: BCEWithLogitsLoss, Adam optimizer
-
-## 🔧 Configuration
-
-### Backend Configuration
-
-Edit `backend/app.py`:
-```python
-MODEL_PATH = 'path/to/your/model.pth'  # Update model path
-UPLOAD_FOLDER = 'uploads'              # Temp upload folder
-MAX_CONTENT_LENGTH = 16 * 1024 * 1024  # Max 16MB
-```
-
-### Frontend Configuration
-
-Edit `frontend/src/App.jsx`:
-```javascript
-const API_URL = 'http://localhost:5000';  // Backend URL
-```
-
-## 🧪 Testing
-
-### Test Backend API
 ```bash
-# Health check
-curl http://localhost:5000/health
+# Core packages
+flask>=3.0.0           # Web framework
+flask-cors>=4.0.0      # CORS support
+torch>=2.0.0           # PyTorch
+torchvision>=0.15.0    # Vision utilities
+timm>=0.9.0            # Model library
+numpy>=1.24.0          # Numerical computing
+pillow>=10.0.0         # Image processing
 
-# Should return: {"status":"healthy","message":"Server is running"}
+# Face detection (optional)
+opencv-python>=4.8.0   # Computer vision
+lz4>=4.0.0             # Compression
+mtcnn>=0.1.1           # Face detection
+tensorflow>=2.15.0     # MTCNN dependency
 ```
 
-### Test Model Prediction
+### Frontend Dependencies
 
-Create `test_model.py`:
+```bash
+react>=18.2.0          # UI framework
+lucide-react>=0.294.0  # Icon library
+react-scripts>=5.0.1   # Build tools
+```
+
+## ⚙️ Configuration
+
+### Enable/Disable Face Detection
+
+Edit `backend/app.py` line 12:
+
 ```python
-from model import ImageClassifierModel
+# Automatic face detection (recommended)
+USE_FACE_DETECTION = True
 
-model = ImageClassifierModel('models/my_face_classifier.pth')
-result = model.predict('test_image.jpg')
-print(result)
+# Process full images (faster, no TensorFlow needed)
+USE_FACE_DETECTION = False
 ```
 
-## 📊 API Endpoints
+### Change Model Path
 
-### GET /health
+Edit `backend/app.py` line 10:
 
-Health check endpoint
+```python
+MODEL_PATH = 'models/ai_face_detector_final.pth'
+```
 
-**Response:**
+### Change API URL
+
+Edit `frontend/src/App.jsx` line 12:
+
+```javascript
+const API_URL = 'http://localhost:5000';
+```
+
+## 🎯 Usage
+
+### Web Interface
+
+1. Open http://localhost:3000
+2. Check green "Server Connected" badge
+3. Click upload area or drag & drop image
+4. Click "Detect AI Face" button
+5. View results with confidence scores
+
+### Command Line Testing
+
+```bash
+cd backend
+python test_model.py path/to/image.jpg
+```
+
+### API Endpoints
+
+#### Health Check
+```bash
+curl http://localhost:5000/health
+```
+
+Response:
 ```json
 {
   "status": "healthy",
-  "message": "Server is running"
+  "message": "AI Face Detector is running",
+  "model": "EfficientNet-B3",
+  "face_detection": true
 }
 ```
 
-### POST /predict
+#### Predict
+```bash
+curl -X POST -F "file=@image.jpg" http://localhost:5000/predict
+```
 
-Upload image for prediction
-
-**Request:**
-- Method: POST
-- Content-Type: multipart/form-data
-- Body: file (image file)
-
-**Response:**
+Response:
 ```json
 {
   "success": true,
-  "prediction": "Real Images",
-  "confidence": 0.9523,
-  "percentage": "95.23%",
-  "raw_probability": 0.9523,
+  "prediction": "Real",
+  "confidence": 0.9234,
+  "percentage": "92.34%",
+  "raw_probability": 0.9234,
   "details": {
-    "ai_generated_probability": 0.0477,
-    "real_image_probability": 0.9523
+    "ai_generated_probability": 0.0766,
+    "real_probability": 0.9234
   }
 }
 ```
 
-## 🚨 Troubleshooting
-
-### Backend Issues
-
-**Model not loading:**
-- Verify model path is correct
-- Check model file exists and is not corrupted
-- Ensure PyTorch is installed correctly
-
-**CORS errors:**
-- Verify flask-cors is installed
-- Check CORS is enabled in app.py
-
-### Frontend Issues
-
-**Blank page:**
-- Check browser console (F12) for errors
-- Verify all dependencies are installed
-- Clear cache: `rm -rf node_modules && npm install`
-
-**Can't connect to backend:**
-- Ensure backend is running on port 5000
-- Check API_URL in App.jsx
-- Verify no firewall blocking
-
-## 🎨 UI Features
-
-- **Upload Area**: Drag-and-drop image preview
-- **Loading State**: Animated spinner during analysis
-- **Results Display**: 
-  - Purple theme for AI-generated images
-  - Green theme for real images
-  - Confidence progress bar
-  - Detailed probability breakdown
-- **Error Handling**: User-friendly error messages
-
-## 📈 Performance
-
-- **Cold Start**: ~3-5 seconds (model loading)
-- **Inference Time**: ~0.5-2 seconds per image
-- **Memory Usage**: ~500MB-1GB RAM
-- **Max Upload Size**: 16MB
-
-## 🔐 Security
-
-- File type validation (PNG, JPG, JPEG only)
-- File size limits (16MB max)
-- Temporary file cleanup after processing
-- CORS configured for local development
-
-## 🚀 Deployment
-
-### Backend Deployment
-
-For production, use gunicorn:
+#### Configuration
 ```bash
+curl http://localhost:5000/config
+```
+
+## 📊 Model Information
+
+| Metric | Value |
+|--------|-------|
+| Architecture | EfficientNet-B3 |
+| Input Size | 384x384 |
+| Training Accuracy | 89.86% |
+| Validation Accuracy | **90.24%** |
+| Training Samples | ~85,000 images |
+| Classes | Real Face, AI-Generated Face |
+| Framework | PyTorch + timm |
+| Optimizer | AdamW |
+| Loss Function | BCE with Label Smoothing |
+
+### Training Details
+
+- **Datasets**: CIFAKE, FFHQ, UTKFace, CelebA, 140k Real/Fake Faces
+- **Augmentation**: Rotation, flip, color jitter, affine transforms, random erasing
+- **Training Strategy**: 
+  - Stage 1: Train classification head (10 epochs)
+  - Stage 2: Fine-tune entire model (40 epochs with early stopping)
+- **Hardware**: Kaggle GPU (Tesla P100)
+- **Training Time**: ~12 hours
+
+## 🐛 Troubleshooting
+
+### Backend won't start
+
+```bash
+# Check if model file exists
+ls backend/models/ai_face_detector_final.pth
+
+# Check Python version
+python --version  # Should be 3.11
+
+# Reinstall dependencies
+pip install -r backend/requirements.txt
+```
+
+### "Server Disconnected" in frontend
+
+```bash
+# Check if backend is running
+curl http://localhost:5000/health
+
+# Restart backend
+cd backend
+python app.py
+```
+
+### PyTorch import error
+
+```bash
+# Reinstall PyTorch via pip
+pip uninstall torch torchvision -y
+pip install torch torchvision --index-url https://download.pytorch.org/whl/cpu
+```
+
+### MTCNN/TensorFlow errors
+
+```bash
+# Install TensorFlow
+pip install tensorflow
+
+# Or disable face detection in app.py
+USE_FACE_DETECTION = False
+```
+
+### Frontend build errors
+
+```bash
+# Clear cache and reinstall
+cd frontend
+rm -rf node_modules package-lock.json
+npm install
+npm start
+```
+
+### Port already in use
+
+```bash
+# Kill process on port 5000 (backend)
+lsof -ti:5000 | xargs kill -9
+
+# Kill process on port 3000 (frontend)
+lsof -ti:3000 | xargs kill -9
+```
+
+## 🧪 Testing
+
+### Backend Tests
+
+```bash
+cd backend
+
+# Test health endpoint
+curl http://localhost:5000/health
+
+# Test with sample image
+curl -X POST -F "file=@test.jpg" http://localhost:5000/predict
+
+# CLI test
+python test_model.py ../img/sample_face.jpg
+```
+
+### Frontend Tests
+
+```bash
+cd frontend
+npm test
+```
+
+## 📝 Development
+
+### Adding New Features
+
+1. **Backend**: Edit `backend/app.py` or `backend/model.py`
+2. **Frontend**: Edit `frontend/src/App.jsx`
+3. **Model**: Retrain using notebooks in project root
+
+### Code Style
+
+- **Python**: Follow PEP 8
+- **JavaScript**: ESLint + Prettier
+- **Git**: Conventional Commits
+
+## 🚢 Deployment
+
+### Backend (Flask)
+
+```bash
+# Using Gunicorn (production)
 pip install gunicorn
 gunicorn -w 4 -b 0.0.0.0:5000 app:app
 ```
 
-### Frontend Deployment
+### Frontend (React)
 
-Build production version:
 ```bash
+# Build for production
+cd frontend
 npm run build
+
+# Serve static files
+npx serve -s build
 ```
 
-Deploy `build/` folder to:
-- Netlify
-- Vercel
-- AWS S3 + CloudFront
-- GitHub Pages
+### Docker (Coming Soon)
 
-## 📝 License
+```bash
+docker-compose up
+```
 
-MIT License
+## 🤝 Contributing
 
-## 👨‍💻 Author
+Contributions welcome! Please:
 
-@toantd181 + Google Gemini + Claude AI + ChatGPT
+1. Fork the repository
+2. Create feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit changes (`git commit -m 'Add amazing feature'`)
+4. Push to branch (`git push origin feature/amazing-feature`)
+5. Open Pull Request
+
+## 📄 License
+
+This project is for educational purposes. Please respect the licenses of all datasets used for training:
+
+- CIFAKE: [License](https://www.kaggle.com/datasets/birdy654/cifake-real-and-ai-generated-synthetic-images)
+- FFHQ: [License](https://github.com/NVlabs/ffhq-dataset)
+- UTKFace: [License](https://susanqq.github.io/UTKFace/)
+- CelebA: [License](http://mmlab.ie.cuhk.edu.hk/projects/CelebA.html)
 
 ## 🙏 Acknowledgments
 
-- ResNet50 architecture by Microsoft Research
-- Flask framework
-- React library
-- PyTorch deep learning framework
+- **Datasets**: CIFAKE, FFHQ, UTKFace, CelebA, 140k Real/Fake Faces
+- **Model**: EfficientNet-B3 via timm library
+- **Face Detection**: MTCNN
+- **Icons**: Lucide React
+- **Training Platform**: Kaggle Notebooks
+
+## 📧 Contact
+
+For questions or issues:
+- Open an issue on GitHub
+- Check troubleshooting section above
+- Test with CLI script first
+
+---
+
+Made with ❤️ using PyTorch, Flask, and React
+
+**Model Performance**: 90.24% validation accuracy
+**Training Time**: ~12 hours on Kaggle GPU
+**Total Parameters**: ~12M (EfficientNet-B3)

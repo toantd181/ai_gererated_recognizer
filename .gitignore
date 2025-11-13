@@ -1,0 +1,297 @@
+# ============================================
+# AI FACE DETECTOR - Git Ignore Rules
+# ============================================
+
+# ==================== Python ====================
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# C extensions
+*.so
+
+# Distribution / packaging
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+pip-wheel-metadata/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# PyInstaller
+*.manifest
+*.spec
+
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+.hypothesis/
+.pytest_cache/
+
+# Jupyter Notebook
+.ipynb_checkpoints
+*.ipynb
+
+# IPython
+profile_default/
+ipython_config.py
+
+# pyenv
+.python-version
+
+# Environments
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# Spyder project settings
+.spyderproject
+.spyproject
+
+# Rope project settings
+.ropeproject
+
+# mkdocs documentation
+/site
+
+# mypy
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# Pyre type checker
+.pyre/
+
+# ==================== Node.js / React ====================
+# Dependencies
+node_modules/
+/.pnp
+.pnp.js
+
+# Testing
+/coverage
+
+# Production build
+/build
+/dist
+
+# Misc
+.DS_Store
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# React
+*.log
+.eslintcache
+
+# ==================== Model Files ====================
+# Large model files (store in Git LFS or external storage)
+*.pth
+*.pt
+*.h5
+*.pkl
+*.onnx
+*.pb
+
+# Exception: Keep placeholder for models directory
+!backend/models/.gitkeep
+
+# ==================== Data Files ====================
+# Datasets
+*.csv
+*.json
+*.xml
+*.parquet
+
+# Images (except documentation images)
+*.jpg
+*.jpeg
+*.png
+*.gif
+*.bmp
+*.tiff
+*.ico
+*.svg
+
+# Exception: Keep images in specific folders
+!frontend/public/*.png
+!frontend/public/*.ico
+!frontend/public/*.svg
+!img/*.png
+!img/*.jpg
+
+# ==================== Backend Specific ====================
+# Upload folder (temporary files)
+backend/uploads/*
+!backend/uploads/.gitkeep
+
+# Flask session files
+flask_session/
+instance/
+
+# Logs
+*.log
+logs/
+*.log.*
+
+# ==================== IDE / Editor ====================
+# VSCode
+.vscode/
+*.code-workspace
+
+# PyCharm
+.idea/
+*.iml
+*.iws
+*.ipr
+
+# Sublime Text
+*.sublime-project
+*.sublime-workspace
+
+# Vim
+*.swp
+*.swo
+*~
+
+# Emacs
+*~
+\#*\#
+/.emacs.desktop
+/.emacs.desktop.lock
+*.elc
+
+# ==================== Operating System ====================
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon
+._*
+.DocumentRevisions-V100
+.fseventsd
+.Spotlight-V100
+.TemporaryItems
+.Trashes
+.VolumeIcon.icns
+.com.apple.timemachine.donotpresent
+
+# Windows
+Thumbs.db
+Thumbs.db:encryptable
+ehthumbs.db
+ehthumbs_vista.db
+*.stackdump
+[Dd]esktop.ini
+$RECYCLE.BIN/
+*.cab
+*.msi
+*.msix
+*.msm
+*.msp
+*.lnk
+
+# Linux
+*~
+.directory
+.Trash-*
+
+# ==================== Conda / Virtual Environments ====================
+# Conda
+*.conda
+*.tar.bz2
+.conda/
+
+# ==================== Temporary Files ====================
+# Temporary files
+*.tmp
+*.temp
+*.bak
+*.swp
+*.swo
+*~
+
+# ==================== Secrets / Security ====================
+# Environment variables
+.env
+.env.local
+.env.*.local
+*.env
+
+# API Keys
+secrets.json
+credentials.json
+*.key
+*.pem
+*.crt
+
+# ==================== Project Specific ====================
+# Checkpoints (training)
+checkpoints/
+*.ckpt
+
+# Wandb / MLflow
+wandb/
+mlruns/
+
+# Cache
+.cache/
+*.cache
+
+# Testing outputs
+test_outputs/
+test_results/
+
+# ==================== Documentation ====================
+# Generated documentation
+docs/_build/
+site/
+
+# ==================== Other ====================
+# Compressed files
+*.zip
+*.tar.gz
+*.rar
+*.7z
+
+# Database files
+*.db
+*.sqlite
+*.sqlite3
+
+# Keep these files
+!.gitkeep
+!README.md
+!LICENSE
