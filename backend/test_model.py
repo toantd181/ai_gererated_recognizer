@@ -1,19 +1,19 @@
 #!/usr/bin/env python3
 """
-Quick test script for the binary image classifier
+Quick test script for the AI face detector
 Usage: python test_model.py path/to/test/image.jpg
 """
 
 import sys
 import os
-from model import ImageClassifierModel
+from model import AIFaceDetectorModel
 
-def test_model(image_path, model_path='models/my_face_classifier.pth'):
+def test_model(image_path, model_path='models/ai_face_detector_final.pth'):
     """Test the model with a single image"""
     
-    print("=" * 60)
-    print("AI Image Detection - Model Test")
-    print("=" * 60)
+    print("=" * 70)
+    print(" AI FACE DETECTOR - Model Test ".center(70, "="))
+    print("=" * 70)
     
     # Check if image exists
     if not os.path.exists(image_path):
@@ -23,32 +23,38 @@ def test_model(image_path, model_path='models/my_face_classifier.pth'):
     # Check if model exists
     if not os.path.exists(model_path):
         print(f"❌ Error: Model not found at {model_path}")
-        print(f"Please update MODEL_PATH in the script")
+        print(f"Please update model_path in the script")
         return
     
     print(f"\n📁 Loading model from: {model_path}")
     
     try:
-        # Load model
-        model = ImageClassifierModel(model_path)
-        print(f"✅ Model loaded successfully!")
+        # Load model with face detection enabled
+        model = AIFaceDetectorModel(model_path, use_face_detection=True)
+        print(f"✓ Model loaded successfully!")
         print(f"   Device: {model.device}")
+        print(f"   Face detection: {'Enabled' if model.use_face_detection else 'Disabled'}")
         
         # Run prediction
         print(f"\n🖼️  Analyzing image: {image_path}")
+        print("-" * 70)
         result = model.predict(image_path)
         
+        if not result.get('success', False):
+            print(f"❌ Prediction failed: {result.get('error', 'Unknown error')}")
+            return
+        
         # Display results
-        print("\n" + "=" * 60)
-        print("RESULTS")
-        print("=" * 60)
+        print("\n" + "=" * 70)
+        print(" RESULTS ".center(70, "="))
+        print("=" * 70)
         
         prediction = result['prediction']
         confidence = result['confidence']
         percentage = result['percentage']
         
-        # Determine icon based on prediction
-        if prediction == 'AI-Generated Images':
+        # Determine icon and color based on prediction
+        if prediction == 'AI-Generated':
             icon = "🤖"
             color_start = "\033[95m"  # Purple
         else:
@@ -62,31 +68,31 @@ def test_model(image_path, model_path='models/my_face_classifier.pth'):
         
         print(f"\n📈 Detailed Probabilities:")
         print(f"   🤖 AI-Generated: {result['details']['ai_generated_probability']:.4f} ({result['details']['ai_generated_probability']*100:.2f}%)")
-        print(f"   ✅ Real Image:   {result['details']['real_image_probability']:.4f} ({result['details']['real_image_probability']*100:.2f}%)")
+        print(f"   ✅ Real Face:    {result['details']['real_probability']:.4f} ({result['details']['real_probability']*100:.2f}%)")
         
         print(f"\n💡 Raw sigmoid output: {result['raw_probability']:.4f}")
         
         # Interpretation
-        print("\n" + "=" * 60)
-        print("INTERPRETATION")
-        print("=" * 60)
+        print("\n" + "=" * 70)
+        print(" INTERPRETATION ".center(70, "="))
+        print("=" * 70)
         
-        if prediction == 'AI-Generated Images':
+        if prediction == 'AI-Generated':
             if confidence > 0.9:
-                print("⚠️  Very high confidence - Likely AI-generated")
+                print("⚠️  Very high confidence - Likely AI-generated face")
             elif confidence > 0.7:
-                print("⚠️  High confidence - Probably AI-generated")
+                print("⚠️  High confidence - Probably AI-generated face")
             else:
-                print("⚠️  Moderate confidence - Possibly AI-generated")
+                print("⚠️  Moderate confidence - Possibly AI-generated face")
         else:
             if confidence > 0.9:
-                print("✓ Very high confidence - Likely authentic")
+                print("✓ Very high confidence - Likely real face")
             elif confidence > 0.7:
-                print("✓ High confidence - Probably authentic")
+                print("✓ High confidence - Probably real face")
             else:
-                print("✓ Moderate confidence - Possibly authentic")
+                print("✓ Moderate confidence - Possibly real face")
         
-        print("\n" + "=" * 60)
+        print("\n" + "=" * 70)
         
         return result
         
@@ -100,7 +106,7 @@ def main():
     """Main function"""
     
     # Default model path (update this to match your setup)
-    MODEL_PATH = 'models/my_face_classifier.pth'
+    MODEL_PATH = 'models/ai_face_detector_final.pth'
     
     # Check command line arguments
     if len(sys.argv) < 2:
